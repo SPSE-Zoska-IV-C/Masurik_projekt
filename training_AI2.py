@@ -56,7 +56,7 @@ class ComplexRadioDataset(Dataset):
         return X, y
 
 
-# --- Complex Linear Layer ---
+
 class ComplexLinear(nn.Module):
     def __init__(self, in_features, out_features):
         super().__init__()
@@ -64,26 +64,30 @@ class ComplexLinear(nn.Module):
         self.W_imag = nn.Linear(in_features, out_features)
 
     def forward(self, x):
-        # x: (batch, in_features), complex
+        
         real = self.W_real(x.real) - self.W_imag(x.imag)
         imag = self.W_real(x.imag) + self.W_imag(x.real)
         return torch.complex(real, imag)
 
 
-# --- Complex activation (apply ReLU to both real and imag parts) ---
+
 class ComplexReLU(nn.Module):
     def forward(self, x):
         return torch.complex(torch.relu(x.real), torch.relu(x.imag))
 
 
-# --- Complex-valued model ---
+
 class ComplexModel32Bit(nn.Module):
     def __init__(self, input_dim):
         super().__init__()
         self.net = nn.Sequential(
-            ComplexLinear(input_dim, 1024),
+            ComplexLinear(input_dim, 2048),
+            ComplexReLU(),
+            ComplexLinear(2048, 1024),
             ComplexReLU(),
             ComplexLinear(1024, 512),
+            ComplexReLU(),
+            ComplexLinear(512, 512),
             ComplexReLU(),
             ComplexLinear(512, 256),
             ComplexReLU(),
@@ -93,12 +97,11 @@ class ComplexModel32Bit(nn.Module):
         )
 
     def forward(self, x):
-        # Output is complex, but we want real bits, so take real part
+        
         return torch.sigmoid(self.net(x).real)
 
 
-# --- Training loop ---
-def train_model(data_dir, epochs=10, batch_size=8, lr=1e-4):
+def train_model(data_dir, epochs=20, batch_size=8, lr=1e-4):
     dataset = ComplexRadioDataset(data_dir)
     sample_X, _ = dataset[0]
     input_dim = sample_X.numel()
@@ -111,7 +114,7 @@ def train_model(data_dir, epochs=10, batch_size=8, lr=1e-4):
     for epoch in range(epochs):
         total_loss = 0.0
         for X_batch, y_batch in loader:
-            # Flatten complex tensor to (batch, features)
+            
             X_batch = X_batch.view(X_batch.size(0), -1)
             optimizer.zero_grad()
             preds = model(X_batch)
@@ -126,7 +129,7 @@ def train_model(data_dir, epochs=10, batch_size=8, lr=1e-4):
         avg_loss = total_loss / max(1, len(loader))
         print(f"Epoch [{epoch+1}/{epochs}] Loss: {avg_loss:.6f}")
 
-    torch.save(model.state_dict(), "COMPLEX_radio_model_32bit_complex.pth")
+    torch.save(model.state_dict(), "COMPLEX2_radio_model_32bit_complex.pth")
     print("DONE")
     return model
 

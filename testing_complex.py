@@ -1,9 +1,9 @@
 import os
 import numpy as np
 import torch
-from training_AI2 import ComplexModel32Bit  # import your model class
+from training_AI2 import ComplexModel32Bit  
 
-# --- Load complex file ---
+
 def load_complex_file(file_path, dtype=np.complex64, max_samples=4096):
     data = np.fromfile(file_path, dtype=dtype)
 
@@ -21,13 +21,13 @@ def load_complex_file(file_path, dtype=np.complex64, max_samples=4096):
         padded[:len(data)] = data
         data = padded
 
-    X = torch.tensor(data, dtype=torch.complex64).unsqueeze(0)  # add batch dimension
+    X = torch.tensor(data, dtype=torch.complex64).unsqueeze(0)  
     return X
 
 
-# --- Evaluation function ---
+
 def evaluate_model(model_path, data_dir, dtype=np.complex64, max_samples=4096):
-    # Collect all file pairs
+    
     file_pairs = []
     for i in range(5000):
         base = f"{i:06d}"
@@ -40,11 +40,11 @@ def evaluate_model(model_path, data_dir, dtype=np.complex64, max_samples=4096):
         print("No valid file pairs found!")
         return
 
-    # Infer input dimension
+    
     sample_X = load_complex_file(file_pairs[0][0], dtype, max_samples)
-    input_dim = sample_X.numel()  # flatten complex tensor to feed model
+    input_dim = sample_X.numel()  
 
-    # Load model
+    
     model = ComplexModel32Bit(input_dim)
     model.load_state_dict(torch.load(model_path, map_location="cpu"))
     model.eval()
@@ -56,7 +56,7 @@ def evaluate_model(model_path, data_dir, dtype=np.complex64, max_samples=4096):
 
     for complex_path, text_path in file_pairs:
         X = load_complex_file(complex_path, dtype, max_samples)
-        X = X.view(1, -1)  # flatten for the model
+        X = X.view(1, -1)  
 
         with open(text_path, "r") as f:
             val = np.float32(f.read().strip())

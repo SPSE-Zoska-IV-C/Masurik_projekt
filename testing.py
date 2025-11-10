@@ -1,9 +1,9 @@
 import os
 import numpy as np
 import torch
-from training_ai import ComplexModel32Bit  # import your model class here
+from training_ai import ComplexModel32Bit  
 
-# Same data loader function as before
+
 def load_complex_file(file_path, dtype=np.complex64, max_samples=4096):
     data = np.fromfile(file_path, dtype=dtype)
 
@@ -27,7 +27,7 @@ def load_complex_file(file_path, dtype=np.complex64, max_samples=4096):
 
 
 def evaluate_model(model_path, data_dir, dtype=np.complex64, max_samples=4096):
-    # Collect all file pairs
+    
     file_pairs = []
     for i in range(5000):
         base = f"{i:06d}"
@@ -40,11 +40,11 @@ def evaluate_model(model_path, data_dir, dtype=np.complex64, max_samples=4096):
         print("No valid file pairs found!")
         return
 
-    # Infer input dimension
+    
     sample_X = load_complex_file(file_pairs[0][0], dtype, max_samples)
     input_dim = sample_X.shape[1]
 
-    # Load model
+    
     model = ComplexModel32Bit(input_dim)
     model.load_state_dict(torch.load(model_path, map_location="cpu"))
     model.eval()
