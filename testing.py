@@ -37,7 +37,7 @@ def evaluate_model(model_path, data_dir, dtype=np.complex64, max_samples=4096):
             file_pairs.append((complex_path, text_path))
 
     if not file_pairs:
-        print("❌ No valid file pairs found!")
+        print("No valid file pairs found!")
         return
 
     # Infer input dimension
@@ -82,6 +82,6 @@ def evaluate_model(model_path, data_dir, dtype=np.complex64, max_samples=4096):
 
 
 if __name__ == "__main__":
-    model_file = "3radio_model_32bit.pth"
+    model_file = "ANN_radio_model_32bit.pth"
     data_dir = "Testing_data3"
     evaluate_model(model_file, data_dir)

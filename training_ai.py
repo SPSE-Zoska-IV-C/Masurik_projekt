@@ -85,7 +85,7 @@ class ComplexModel32Bit(nn.Module):
     def forward(self, x):
         return self.net(x)
 
-def train_model(data_dir, epochs=12, batch_size=8, lr=1e-4):
+def train_model(data_dir, epochs=10, batch_size=8, lr=1e-4):
     dataset = ComplexRadioDataset(data_dir)
     sample_X, _ = dataset[0]
     input_dim = len(sample_X)
@@ -111,7 +111,7 @@ def train_model(data_dir, epochs=12, batch_size=8, lr=1e-4):
         avg_loss = total_loss / max(1, len(loader))
         print(f"Epoch [{epoch+1}/{epochs}] Loss: {avg_loss:.6f}")
 
-    torch.save(model.state_dict(), "3radio_model_32bit.pth")
+    torch.save(model.state_dict(), "ANN_radio_model_32bit.pth")
     print("DONE")
 
     return model

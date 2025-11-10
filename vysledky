@@ -1,0 +1,42 @@
+Tradicne metody: 92.55%
+
+CNN:
+Epoch [1/10] Loss: 0.516548
+Epoch [2/10] Loss: 0.365678
+Epoch [3/10] Loss: 0.306986
+Epoch [4/10] Loss: 0.277274
+Epoch [5/10] Loss: 0.256489
+Epoch [6/10] Loss: 0.240950
+Epoch [7/10] Loss: 0.229673
+Epoch [8/10] Loss: 0.218529
+Epoch [9/10] Loss: 0.210924
+Epoch [10/10] Loss: 0.204824
+
+Average bit accuracy: 91.83%
+
+COMPLEX:
+
+Epoch [1/10] Loss: 0.474248
+Epoch [2/10] Loss: 0.335352
+Epoch [3/10] Loss: 0.277736
+Epoch [4/10] Loss: 0.241135
+Epoch [5/10] Loss: 0.208127
+Epoch [6/10] Loss: 0.180374
+Epoch [7/10] Loss: 0.157639
+Epoch [8/10] Loss: 0.138089
+Epoch [9/10] Loss: 0.122405
+Epoch [10/10] Loss: 0.110257
+
+Average bit accuracy: 94.78%
+
+ANN:
+Epoch [3/10] Loss: 0.361923
+Epoch [4/10] Loss: 0.330849
+Epoch [5/10] Loss: 0.302510
+Epoch [6/10] Loss: 0.279723
+Epoch [7/10] Loss: 0.263823
+Epoch [8/10] Loss: 0.248577
+Epoch [9/10] Loss: 0.234041
+Epoch [10/10] Loss: 0.220847
+
+Average bit accuracy: 88.62%
